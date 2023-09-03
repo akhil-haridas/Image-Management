@@ -1,23 +1,17 @@
 const express = require("express");
 const router = express.Router();
+const multerConfig = require("../config/multerConfig"); // Import your multerConfig
 
-// Import controllers for each route
-// const UserController = require("../controllers/userController");
 const ImageController = require("../controllers/imageController");
-// const AuthMiddleware = require("../middleware/authMiddleware");
 
-// User Routes
-router.get("/home",ImageController.home)
-// router.post("/register", UserController.register); 
-// router.post("/login", UserController.login); 
-// router.post("/logout", UserController.logout);
-// router.get("/profile", AuthMiddleware.authenticate, UserController.profile); 
+// Use multer middleware with size limit (e.g., 2MB)
+const upload = multerConfig("../uploads", 2 * 1024 * 1024);
 
 // Image Routes
-// router.post("/upload", AuthMiddleware.authenticate, ImageController.upload); 
-// router.get("/search", ImageController.search); 
-// router.get("/image/:id", ImageController.getImageById); 
-// router.put("/image/:id",AuthMiddleware.authenticate,ImageController.updateImage);
-// router.delete("/image/:id", AuthMiddleware.authenticate, ImageController.deleteImage);
+router.post("/upload", upload.single("image"), ImageController.uploadImage);
+router.get("/search", ImageController.searchImages);
+router.get("/image/:id", ImageController.getImageById);
+router.put("/image/:id", ImageController.updateImageById);
+router.delete("/image/:id", ImageController.deleteImageById);
 
 module.exports = router;

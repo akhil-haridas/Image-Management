@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 
-require("dotenv").config();
+const config = require("./config/serverConfig");
 
 const connectToDatabase = require("./utils/database");
 
@@ -24,7 +24,8 @@ const imageRoutes = require("./routes/imageRoutes");
 
 app.use("/api/images", imageRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = config.server.port;
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

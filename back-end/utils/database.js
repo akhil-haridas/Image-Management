@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
-const config = require("../config/config");
+const config = require("../config/serverConfig");
 
 const connectDB = async () => {
   try {
@@ -18,4 +18,3 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
-
