@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
-
+const path = require("path")
 const config = require("./config/serverConfig");
 
 const connectToDatabase = require("./utils/database");
@@ -23,6 +23,8 @@ connectToDatabase();
 const imageRoutes = require("./routes/imageRoutes");
 
 app.use("/api/images", imageRoutes);
+
+app.use(express.static(path.join(__dirname, "uploads")));
 
 const PORT = config.server.port;
 

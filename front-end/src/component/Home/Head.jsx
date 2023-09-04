@@ -22,23 +22,8 @@ const Head = () => {
                   <li>
                     <a href="1">Logout</a>
                   </li>
-                  <li>
-                    <div className="header-icons">
-                      <a className="mobile-hide search-bar-icon" href="1">
-                        <box-icon
-                          name="user"
-                          type="solid"
-                          color="#ffffff"
-                        ></box-icon>
-                      </a>
-                    </div>
-                  </li>
                 </ul>
               </nav>
-              <a className="mobile-show search-bar-icon" href="1">
-                <i className="fas fa-search" />
-              </a>
-              <div className="mobile-menu" />
             </div>
           </div>
         </div>

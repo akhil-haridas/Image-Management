@@ -15,7 +15,9 @@ const multerConfig = (destination, maxSizeInBytes) => {
       cb(null, true);
     } else {
       cb(
-        new Error("File type not supported. Only image files are allowed."),
+        new multer.MulterError(
+          "File type not supported. Only image files are allowed."
+        ),
         false
       );
     }

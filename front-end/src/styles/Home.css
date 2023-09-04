@@ -10,7 +10,6 @@ body {
     font-weight: 400;
     font-size: 1rem;
     letter-spacing: 0.1px;
-    line-height: 1.8;
     color: #051922;
     overflow-x: hidden;
 }
@@ -189,14 +188,14 @@ p:last-child {
     top: 0;
     width: 100%;
     z-index: 1111;
-    background: #fff;
+    background: #00000057;
     overflow-x: hidden;
 }
 
 .loader-inner {
     position: absolute;
-    left: 50%;
-    top: 50%;
+    left: 47%;
+    top: 40%;
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
@@ -208,7 +207,7 @@ p:last-child {
 .circle {
     width: 8vmax;
     height: 8vmax;
-    border-right: 4px solid #000;
+    border-right: 4px solid #ffffff;
     border-radius: 50%;
     -webkit-animation: spinRight 800ms linear infinite;
     animation: spinRight 800ms linear infinite;
@@ -1675,7 +1674,9 @@ p.excerpt {
     margin-bottom: 30px;
 }
 
-
+.latest-news{
+    margin-top: 70px;
+}
 
 .pagination-wrap {
     margin-top: 40px;
@@ -1708,6 +1709,8 @@ p.excerpt {
 }
 
 .single-artcile-bg {
+   
+        height: 450px;
     background-size: cover;
     background-position: center;
     background-color: #ddd;
@@ -2418,7 +2421,7 @@ a.cart-btn i {
 .sub-new{
         display: flex;
             justify-content: center;
-            padding-bottom: 4rem;
+            margin-bottom: -5rem;
             padding-top: 2rem;
 }
 
@@ -3290,9 +3293,6 @@ table.order-details tbody td {
         line-height: 1.8;
     }
 
-    .single-artcile-bg {
-        height: 300px;
-    }
 
     .single-article-text h2 {
         font-size: 20px;

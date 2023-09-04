@@ -11,7 +11,7 @@ const ImageRoutes = () => {
     <Routes>
       <Route path="/" exact element={<HomePage />} />
       <Route path="/collections" exact element={<ListingPage />} />
-      <Route path="/image" exact element={<ViewPage />} />
+      <Route path="/image/:id" exact element={<ViewPage />} />
       <Route path="/addimage" exact element={<AddPage />} />
       <Route path="/signin" exact element={<LoginPage />} />
       <Route path="/signup" exact element={<SignupPage />} />

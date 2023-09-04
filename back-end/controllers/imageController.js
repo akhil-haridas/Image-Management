@@ -1,18 +1,67 @@
-const Image = require("../models/imageSchema"); // Import your Image model
+const Image = require("../models/imageSchema"); 
+const sizeOf = require("image-size");
+const Vibrant = require("node-vibrant");
 
 // Controller for uploading an image
 exports.uploadImage = async (req, res) => {
   try {
     // Validate and process the uploaded image and other attributes
     const { title, description, keywords } = req.body;
-    const file = req.file.filename; // Uploaded image file name
+
+    const file = req.file;
+
+    // Check for missing fields
+    if (!title || !description || !keywords || !file) {
+      return res
+        .status(400)
+        .json({
+          error: "Title, description, keywords, and image are required fields.",
+        });
+    }
+
+    // Check for empty title, description, or keywords
+    if (
+      title.trim() === "" ||
+      description.trim() === "" ||
+      keywords.trim() === ""
+    ) {
+      return res
+        .status(400)
+        .json({ error: "Title, description, and keywords cannot be empty." });
+    }
+
+    // Check if an image with the same title already exists
+    const existingImage = await Image.findOne({ title });
+    if (existingImage) {
+      return res
+        .status(400)
+        .json({ error: "An image with the same title already exists." });
+    }
+
+    const { path } = req.file;
+
+    // Extract image dimensions
+    const dimensions = sizeOf(path);
+
+    // Extract color palette data
+    const palette = await Vibrant.from(path).getPalette();
+
+    // Access image dimension and color palette data
+    const width = dimensions.width;
+    const height = dimensions.height;
+    const colorPalette = Object.keys(palette).map((swatch) =>
+      palette[swatch].getHex()
+    );
 
     // Create a new image record in the database
     const newImage = new Image({
       title,
       description,
-      keywords: keywords.split(","), // Split keywords into an array
-      file,
+      keywords: keywords.split(",").map((keyword) => keyword.trim()),
+      file: file.filename,
+      width,
+      height,
+      colorPalette,
     });
 
     // Save the new image record
@@ -24,6 +73,35 @@ exports.uploadImage = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+
+exports.getAllImages = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, sortField, sortOrder, search } = req.query;
+
+    // Build a filter object based on the search query
+    const filter = search ? { title: { $regex: new RegExp(search, "i") } } : {};
+
+    // Define the sort criteria
+    const sort = sortField && sortOrder ? { [sortField]: sortOrder } : {};
+
+    // Use mongoose-paginate to fetch paginated, sorted, and filtered image metadata
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sort: sort,
+    };
+
+    const result = await Image.paginate(filter, options);
+
+    // Return the paginated result as a JSON response
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Error fetching images:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 
 // Controller for searching images
 exports.searchImages = async (req, res) => {
